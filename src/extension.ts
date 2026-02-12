@@ -6,10 +6,14 @@ import { createPreCommitHook } from './hooks';
 export async function activate(context: vscode.ExtensionContext) {
 
     const config = getConfig();
-    if (!config.enabled) return;
+    if (!config.enabled) {
+		return;
+	}
 
     const workspace = vscode.workspace.workspaceFolders?.[0];
-    if (!workspace) return;
+    if (!workspace) {
+		return;
+	}
 
     const root = workspace.uri.fsPath;
 

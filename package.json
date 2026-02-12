@@ -3,7 +3,17 @@
   "displayName": "OverConfident",
   "description": "OverConfident protects you from committing sensitive files like .env before your confidence becomes a security incident.",
   "version": "0.0.1",
-  "publisher": "your-publisher-name",
+  "publisher": "zakoraa",
+  "license": "MIT",
+  "icon": "assets/images/overlogic-logo.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zakoraa/over-confident-vscode-extension.git"
+  },
+  "homepage": "https://github.com/zakoraa/over-confident-vscode-extension",
+  "bugs": {
+    "url": "https://github.com/zakoraa/over-confident-vscode-extension/issues"
+  },
   "engines": {
     "vscode": "^1.109.0"
   },

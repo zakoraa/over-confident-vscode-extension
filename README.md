@@ -1,71 +1,218 @@
-# OverConfident README
+# OverConfident 😏
 
-This is the README for your extension "OverConfident". After writing up a brief description, we recommend including the following sections.
+> **Because confidence doesn’t secure your secrets.**
 
-## Features
+**OverConfident** is a security-focused VS Code extension that prevents accidental commits of sensitive files such as `.env` before your confidence turns into a security incident.
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+We all trust our commits.
+Sometimes… a little too much.
 
 ---
 
-## Following extension guidelines
+## 🚀 What OverConfident Does
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+OverConfident helps you avoid leaking secrets by:
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+* 🔍 Detecting sensitive files like `.env`
+* ⚠️ Warning you immediately inside VS Code
+* 🛠 Automatically adding protected files to `.gitignore`
+* 🚫 Generating a Git `pre-commit` hook to block dangerous commits
+* ⚙️ Allowing full customization through VS Code Settings
 
-## Working with Markdown
+---
 
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
+## 🛡 Why This Extension Exists
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
+Accidentally committing `.env` files is one of the most common beginner (and not-so-beginner) mistakes.
 
-## For more information
+That usually leads to:
 
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+* Exposed API keys
+* Leaked database credentials
+* Revoked tokens
+* Emergency key rotations
+* Mild panic
 
-**Enjoy!**
+OverConfident stops that before it happens.
+
+---
+
+## ✨ Features
+
+### 1️⃣ Sensitive File Detection
+
+By default, OverConfident protects:
+
+* `.env`
+* `.env.local`
+* `.env.production`
+* `.env.development`
+
+You can customize this list in settings.
+
+---
+
+### 2️⃣ Automatic `.gitignore` Integration
+
+If a protected file is detected and not ignored, OverConfident can automatically add it to:
+
+```
+.gitignore
+```
+
+---
+
+### 3️⃣ Git Pre-Commit Protection
+
+When enabled, OverConfident generates a `pre-commit` hook inside:
+
+```
+.git/hooks/pre-commit
+```
+
+If you try to commit a protected file:
+
+```
+❌ Commit blocked: Protected file detected (.env)
+```
+
+Your secrets stay local.
+
+---
+
+### 4️⃣ Workspace-Aware Activation
+
+The extension only activates when:
+
+* A `.git` directory exists
+* A workspace is opened
+
+No unnecessary background processing.
+
+---
+
+## ⚙ Extension Settings
+
+OverConfident adds the following configuration options:
+
+### `overConfident.enabled`
+
+Enable or disable the extension.
+
+Default:
+
+```
+true
+```
+
+---
+
+### `overConfident.protectedFiles`
+
+List of files that should never be committed.
+
+Default:
+
+```
+[
+  ".env",
+  ".env.local",
+  ".env.production",
+  ".env.development"
+]
+```
+
+---
+
+### `overConfident.autoAddToGitignore`
+
+Automatically add detected protected files to `.gitignore`.
+
+Default:
+
+```
+true
+```
+
+---
+
+### `overConfident.enablePreCommitHook`
+
+Automatically create a Git pre-commit hook to block protected files.
+
+Default:
+
+```
+true
+```
+
+---
+
+## 🧪 How To Test
+
+1. Open a Git project in VS Code
+2. Create a `.env` file
+3. Stage it:
+
+```
+git add .env
+```
+
+4. Commit:
+
+```
+git commit -m "test"
+```
+
+If protection is enabled, the commit will be blocked.
+
+---
+
+## 🧠 Best Practice Recommendation
+
+For maximum protection, combine OverConfident with:
+
+* Proper `.gitignore` usage
+* Environment variable management
+* Secret scanning tools in CI/CD
+* Private repositories for sensitive projects
+
+OverConfident is your first safety net — not your only one.
+
+---
+
+## 📦 Performance & Safety
+
+* Lightweight
+* No telemetry
+* No external network calls
+* No performance overhead during normal editing
+
+Runs only when needed.
+
+---
+
+## 🐛 Known Limitations
+
+* Pre-commit hook works per repository (as intended by Git)
+* If Git hooks are overridden by custom tooling, behavior may differ
+
+---
+
+## 📜 Release Notes
+
+### 0.0.1
+
+Initial release of OverConfident:
+
+* Sensitive file detection
+* Git hook generation
+* `.gitignore` integration
+* Configurable protection rules
+
+---
+
+## 😏 Final Words
+
+Be confident.
+Just not *that* confident.
