@@ -1,4 +1,6 @@
 import * as vscode from 'vscode';
+import * as fs from 'fs';
+import * as path from 'path';
 import { getConfig } from './config';
 import { scanProtectedFiles } from './scanner';
 import { createPreCommitHook } from './hooks';
@@ -6,17 +8,25 @@ import { createPreCommitHook } from './hooks';
 export async function activate(context: vscode.ExtensionContext) {
 
     const config = getConfig();
+
     if (!config.enabled) {
-		return;
-	}
+        return;
+    }
 
     const workspace = vscode.workspace.workspaceFolders?.[0];
+
     if (!workspace) {
-		return;
-	}
+        return;
+    }
 
     const root = workspace.uri.fsPath;
 
+    // 🔥 Always create hook if enabled
+    if (config.enablePreCommitHook) {
+        createPreCommitHook(root, config.protectedFiles);
+    }
+
+    // Scan existing protected files
     const detected = scanProtectedFiles(config.protectedFiles);
 
     if (detected.length > 0) {
@@ -27,12 +37,16 @@ export async function activate(context: vscode.ExtensionContext) {
         ).then(selection => {
 
             if (selection === 'Add to .gitignore' && config.autoAddToGitignore) {
-                const gitignorePath = `${root}/.gitignore`;
+
+                const gitignorePath = path.join(root, '.gitignore');
 
                 let content = '';
+
                 try {
-                    content = require('fs').readFileSync(gitignorePath, 'utf8');
-                } catch {}
+                    content = fs.readFileSync(gitignorePath, 'utf8');
+                } catch {
+                    content = '';
+                }
 
                 detected.forEach(file => {
                     if (!content.includes(file)) {
@@ -40,14 +54,10 @@ export async function activate(context: vscode.ExtensionContext) {
                     }
                 });
 
-                require('fs').writeFileSync(gitignorePath, content);
+                fs.writeFileSync(gitignorePath, content);
                 vscode.window.showInformationMessage('.gitignore updated');
             }
         });
-
-        if (config.enablePreCommitHook) {
-            createPreCommitHook(root, config.protectedFiles);
-        }
     }
 }
 
