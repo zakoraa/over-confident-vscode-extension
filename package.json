@@ -1,7 +1,7 @@
 {
   "name": "overconfident",
-  "displayName": "OverConfident",
-  "description": "OverConfident protects you from committing sensitive files like .env before your confidence becomes a security incident.",
+  "displayName": "Over Confident",
+  "description": "Over Confident protects you from committing sensitive files like .env before your confidence becomes a security incident.",
   "version": "0.0.1",
   "publisher": "zakoraa",
   "license": "MIT",
