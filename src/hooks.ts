@@ -11,15 +11,15 @@ PROTECTED_FILES=$(git diff --cached --name-only | grep -E '(^|/)\\.env($|\\.)')
 if [ -n "$PROTECTED_FILES" ]
 then
   echo ""
-  echo "========================================"
+  echo "================================================="
   echo "❌ Commit blocked by Over Confident"
-  echo "----------------------------------------"
+  echo "-------------------------------------------------"
   echo "The following environment file(s) were detected:"
   echo "$PROTECTED_FILES"
   echo ""
   echo "Environment files must not be committed."
   echo "Remove them from staging before committing."
-  echo "========================================"
+  echo "================================================="
   echo ""
   exit 1
 fi
