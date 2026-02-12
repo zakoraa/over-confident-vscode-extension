@@ -21,18 +21,16 @@ export async function activate(context: vscode.ExtensionContext) {
 
     const root = workspace.uri.fsPath;
 
-    // 🔥 Always create hook if enabled
     if (config.enablePreCommitHook) {
-        createPreCommitHook(root, config.protectedFiles);
+        createPreCommitHook(root);
     }
 
-    // Scan existing protected files
-    const detected = scanProtectedFiles(config.protectedFiles);
+    const detected = scanProtectedFiles(['.env']);
 
     if (detected.length > 0) {
 
         vscode.window.showErrorMessage(
-            `Protected file detected: ${detected.join(', ')}`,
+            `Environment file detected: ${detected.join(', ')}`,
             'Add to .gitignore'
         ).then(selection => {
 
@@ -48,11 +46,9 @@ export async function activate(context: vscode.ExtensionContext) {
                     content = '';
                 }
 
-                detected.forEach(file => {
-                    if (!content.includes(file)) {
-                        content += `\n${file}`;
-                    }
-                });
+                if (!content.includes('.env')) {
+                    content += `\n.env`;
+                }
 
                 fs.writeFileSync(gitignorePath, content);
                 vscode.window.showInformationMessage('.gitignore updated');
