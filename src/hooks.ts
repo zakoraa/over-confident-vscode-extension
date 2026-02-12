@@ -4,7 +4,11 @@ import * as path from 'path';
 export const createPreCommitHook = (root: string, protectedFiles: string[]) => {
     const hookPath = path.join(root, '.git', 'hooks', 'pre-commit');
 
-    const pattern = protectedFiles
+    const files = protectedFiles.length > 0
+        ? protectedFiles
+        : ['.env', '.env.local', '.env.production', '.env.development'];
+
+    const pattern = files
         .map(file => file.replace('.', '\\.'))
         .join('|');
 
