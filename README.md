@@ -2,227 +2,235 @@
 
 > **Because confidence doesn’t secure your secrets.**
 
-**Over Confident** is a security-focused VS Code extension that prevents accidental commits of sensitive files such as `.env` before your confidence turns into a security incident.
+**Over Confident** is a security-focused VS Code extension that prevents
+accidental commits of sensitive files like `.env` before your confidence
+turns into a security incident.
 
-We all trust our commits.
+We all trust our commits.  
 Sometimes… a little too much.
 
----
+------------------------------------------------------------------------
 
-## 🚀 What Over Confident Does
+# 📦 Installation
 
-Over Confident helps you avoid leaking secrets by:
+## 🔧 Manual Install (VSIX)
 
-* 🔍 Detecting sensitive files like `.env`
-* ⚠️ Warning you immediately inside VS Code
-* 🛠 Automatically adding protected files to `.gitignore`
-* 🚫 Generating a Git `pre-commit` hook to block dangerous commits
-* ⚙️ Allowing full customization through VS Code Settings
+This extension has not been published to the Microsoft Marketplace yet
+(Azure Publisher token and payment verification are still required).  
+For now, installation is done manually using the `.vsix` file.
 
----
+Make sure you have:
 
-## 🛡 Why This Extension Exists
+    overconfident-0.0.1.vsix
 
-Accidentally committing `.env` files is one of the most common beginner (and not-so-beginner) mistakes.
+Then run the following command in your terminal:
+
+``` bash
+code --install-extension overconfident-0.0.1.vsix
+```
+
+If successful, restart VS Code.
+
+### Alternative via VS Code UI
+
+1.  Open VS Code  
+2.  Go to Extensions  
+3.  Click the three-dot menu (…)  
+4.  Select **Install from VSIX**  
+5.  Choose `overconfident-0.0.1.vsix`
+
+------------------------------------------------------------------------
+
+# 🚀 What Over Confident Does
+
+Over Confident helps prevent secret leaks by:
+
+-   🔍 Detecting sensitive files like `.env`
+-   ⚠️ Showing warnings directly inside VS Code
+-   🛠 Automatically adding protected files to `.gitignore`
+-   🚫 Creating a Git `pre-commit` hook to block dangerous commits
+-   ⚙️ Allowing full customization through Settings
+
+------------------------------------------------------------------------
+
+# 🛡 Why This Extension Exists
+
+Accidentally committing `.env` files is one of the most common mistakes.
 
 That usually leads to:
 
-* Exposed API keys
-* Leaked database credentials
-* Revoked tokens
-* Emergency key rotations
-* Mild panic
+-   Exposed API keys
+-   Leaked database credentials
+-   Revoked tokens
+-   Emergency key rotations
+-   Mild panic
 
 Over Confident stops that before it happens.
 
----
+------------------------------------------------------------------------
 
-## ✨ Features
+# ✨ Features
 
-### 1️⃣ Sensitive File Detection
+## 1️⃣ Sensitive File Detection
 
-By default, Over Confident protects:
+By default, all files that start with:
 
-* `.env`
-* `.env.local`
-* `.env.production`
-* `.env.development`
+    .env*
 
-You can customize this list in settings.
+are protected automatically.
 
----
+Examples:
 
-### 2️⃣ Automatic `.gitignore` Integration
+-   `.env`
+-   `.env.local`
+-   `.env.production`
+-   `.env.development`
+-   `.env.staging`
+-   `.env.test`
 
-If a protected file is detected and not ignored, Over Confident can automatically add it to:
+Fully customizable in settings.
 
-```
-.gitignore
-```
+------------------------------------------------------------------------
 
----
+## 2️⃣ Automatic `.gitignore` Integration
 
-### 3️⃣ Git Pre-Commit Protection
+If a protected file is detected and not listed in `.gitignore`, the
+extension can automatically add it.
 
-When enabled, Over Confident generates a `pre-commit` hook inside:
+------------------------------------------------------------------------
 
-```
-.git/hooks/pre-commit
-```
+## 3️⃣ Git Pre-Commit Protection
 
-If you try to commit a protected file:
+When enabled, the extension generates a hook at:
 
-```
-=================================================
-❌ Commit blocked by Over Confident
-----------------------------------------
-The following environment file(s) were detected:
-.env.local
-.env.production
-.env.staging
+    .git/hooks/pre-commit
 
-Environment files must not be committed.
-Remove them from staging before committing.
-=================================================
-```
+If you attempt to commit protected files:
+
+    =================================================
+    ❌ Commit blocked by Over Confident
+    ----------------------------------------
+    The following environment file(s) were detected:
+    .env.local
+    .env.production
+    .env.staging
+
+    Environment files must not be committed.
+    Remove them from staging before committing.
+    =================================================
 
 Your secrets stay local.
 
----
+------------------------------------------------------------------------
 
-### 4️⃣ Workspace-Aware Activation
+## 4️⃣ Workspace-Aware Activation
 
-The extension only activates when:
+The extension activates only when:
 
-* A `.git` directory exists
-* A workspace is opened
+-   A `.git` directory exists  
+-   A workspace is opened
 
 No unnecessary background processing.
 
----
+------------------------------------------------------------------------
 
-## ⚙ Extension Settings
+# ⚙️ Extension Settings
 
-Over Confident adds the following configuration options:
-
-### `overConfident.enabled`
+## `overConfident.enabled`
 
 Enable or disable the extension.
 
 Default:
 
-```
-true
-```
+    true
 
----
+------------------------------------------------------------------------
 
-### `overConfident.protectedFiles`
+## `overConfident.protectedFiles`
 
-List of files that should never be committed.
+List of files that must never be committed.
 
 Default:
 
-```
-[
-  ".env",
-  ".env.local",
-  ".env.production",
-  ".env.development"
-]
-```
+    [
+      ".env",
+      ".env.local",
+      ".env.production",
+      ".env.development"
+    ]
 
----
+------------------------------------------------------------------------
 
-### `overConfident.autoAddToGitignore`
+## `overConfident.autoAddToGitignore`
 
-Automatically add detected protected files to `.gitignore`.
+Automatically add detected files to `.gitignore`.
 
 Default:
 
-```
-true
-```
+    true
 
----
+------------------------------------------------------------------------
 
-### `overConfident.enablePreCommitHook`
+## `overConfident.enablePreCommitHook`
 
-Automatically create a Git pre-commit hook to block protected files.
+Automatically create a Git pre-commit hook.
 
 Default:
 
-```
-true
-```
+    true
 
----
+------------------------------------------------------------------------
 
-## 🧪 How To Test
+# 🧪 How To Test
 
-1. Open a Git project in VS Code
-2. Create a `.env` file
-3. Stage it:
+1.  Open a Git project in VS Code  
+2.  Create a `.env` file  
+3.  Run:
 
-```
-git add .env
-```
+<!-- -->
 
-4. Commit:
+    git add .env
 
-```
-git commit -m "test"
-```
+4.  Then commit:
+
+<!-- -->
+
+    git commit -m "test"
 
 If protection is enabled, the commit will be blocked.
 
----
+------------------------------------------------------------------------
 
-## 🧠 Best Practice Recommendation
+# 📦 Performance & Safety
 
-For maximum protection, combine Over Confident with:
+-   Lightweight  
+-   No telemetry  
+-   No external network calls  
+-   No performance overhead during editing
 
-* Proper `.gitignore` usage
-* Environment variable management
-* Secret scanning tools in CI/CD
-* Private repositories for sensitive projects
+------------------------------------------------------------------------
 
-Over Confident is your first safety net — not your only one.
+# 🐛 Known Limitations
 
----
+-   Pre-commit hooks work per repository  
+-   If Git hooks are overridden by other tooling, behavior may differ
 
-## 📦 Performance & Safety
+------------------------------------------------------------------------
 
-* Lightweight
-* No telemetry
-* No external network calls
-* No performance overhead during normal editing
+# 📜 Release Notes
 
-Runs only when needed.
+## 0.0.1
 
----
+Initial release:
 
-## 🐛 Known Limitations
+-   Sensitive file detection  
+-   Git hook generation  
+-   `.gitignore` integration  
+-   Configurable protection rules
 
-* Pre-commit hook works per repository (as intended by Git)
-* If Git hooks are overridden by custom tooling, behavior may differ
+------------------------------------------------------------------------
 
----
+# 😏 Final Words
 
-## 📜 Release Notes
-
-### 0.0.1
-
-Initial release of Over Confident:
-
-* Sensitive file detection
-* Git hook generation
-* `.gitignore` integration
-* Configurable protection rules
-
----
-
-## 😏 Final Words
-
-Be confident.
+Be confident.  
 Just not *that* confident.
